@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket</title>
+</head>
+
+<body>
+    <form action="http://localhost:2000/api/up/813072d1-684b-4d4b-ba49-62c2a2d0cb5e" method="POST" enctype="multipart/form-data">
+        <label for="file">Pilih File:</label>
+        <input type="file" id="file" name="file" required>
+        <button type="submit" id="submit">Upload</button>
+
+        <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+            integrity="sha384-mkQ3/7FUtcGyoppY6bz/PORYoGqOl7/aSUMn2ymDOJcapfS6PHqxhRTMh1RR0Q6+"
+            crossorigin="anonymous"></script>
+
+        <script>
+            document.getElementById("submit").addEventListener("click", () => {
+                console.log(document.getElementById("submit").value)
+            })
+            const socket = io("http://localhost:2000/stream");
+
+            socket.on("connect", () => {
+                console.log("Connected to server");
+            });
+
+            socket.emit("joins", { clients: "manok", data: "dfdf" });
+
+
+            socket.on("manok", (data) => {
+                console.debug("Received from server:", data);
+            });
+
+            socket.on("disconnect", () => {
+                console.debug("Disconnected from server");
+            });
+        </script>
+
+</body>
+
+</html>
